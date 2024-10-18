@@ -35,15 +35,16 @@
                 });
             });
         }
-    </script>
-    <script>
-        const words = [
-            {"Categorie": "Categorie 1", "Woord met (ei) of (ij)": "(ei)genschap", "Korte zin voor 12-jarige": "(...)genschap: Een speciaal kenmerk of kwaliteit.", "Woord zonder haakjes": "eigenschap"},
-            {"Categorie": "Categorie 1", "Woord met (ei) of (ij)": "(ij)zersterk", "Korte zin voor 12-jarige": "(...)zersterk: Heel erg sterk, bijna niet kapot te krijgen.", "Woord zonder haakjes": "ijzersterk"},
-            {"Categorie": "Categorie 1", "Woord met (ei) of (ij)": "activit(ei)t", "Korte zin voor 12-jarige": "activit(...)t: Iets wat je doet, zoals een spel of werk.", "Woord zonder haakjes": "activiteit"},
-            {"Categorie": "Categorie 1", "Woord met (ei) of (ij)": "afw(ij)king", "Korte zin voor 12-jarige": "afw(...)king: Iets dat anders is dan normaal.", "Woord zonder haakjes": "afwijking"},
-            {"Categorie": "Categorie 1", "Woord met (ei) of (ij)": "and(ij)vie", "Korte zin voor 12-jarige": "and(...)vie: Een groene bladgroente die je kunt eten.", "Woord zonder haakjes": "andijvie"}
-        ];
+
+        let words = [];
+
+        // Laad het JSON-bestand
+        fetch('zinnen.json')
+        .then(response => response.json())
+        .then(data => {
+            words = data;
+            displayQuestion(0); // Start met de eerste vraag nadat de JSON is geladen
+        });
 
         let currentQuestion = 0;
         let correctAnswers = 0;
@@ -57,8 +58,8 @@
             }
 
             const word = words[index];
-            const sentence = word['Korte zin voor 12-jarige'];
-            const correctAnswer = word['Woord met (ei) of (ij)'].includes('ei') ? 'ei' : 'ij';
+            const sentence = word['Zin'];
+            const correctAnswer = word['Correcte Spelling'];
 
             document.getElementById('question').innerHTML = sentence;
             document.getElementById('result').innerHTML = '';
@@ -90,11 +91,6 @@
                 displayQuestion(index + 1);
                 document.getElementById('next').style.display = 'none';
             };
-        }
-
-        window.onload = function() {
-            displayQuestion(0);
-            document.getElementById('next').style.display = 'none';
         }
     </script>
 </head>
