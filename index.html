@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Woordspel "EI of IJ"</title>
+    <style>
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        .incorrect {
+            color: red;
+        }
+        .correct {
+            color: green;
+        }
+    </style>
+    <link rel="manifest" href="/manifest.json">
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
+                    console.log('Service Worker geregistreerd:', registration);
+                }).catch(function(error) {
+                    console.log('Service Worker registratie mislukt:', error);
+                });
+            });
+        }
+    </script>
+    <script>
+        const words = [
+            {"Categorie": "Categorie 1", "Woord met (ei) of (ij)": "(ei)genschap", "Korte zin voor 12-jarige": "(...)genschap: Een speciaal kenmerk of kwaliteit.", "Woord zonder haakjes": "eigenschap"},
+            {"Categorie": "Categorie 1", "Woord met (ei) of (ij)": "(ij)zersterk", "Korte zin voor 12-jarige": "(...)zersterk: Heel erg sterk, bijna niet kapot te krijgen.", "Woord zonder haakjes": "ijzersterk"},
+            {"Categorie": "Categorie 1", "Woord met (ei) of (ij)": "activit(ei)t", "Korte zin voor 12-jarige": "activit(...)t: Iets wat je doet, zoals een spel of werk.", "Woord zonder haakjes": "activiteit"},
+            {"Categorie": "Categorie 1", "Woord met (ei) of (ij)": "afw(ij)king", "Korte zin voor 12-jarige": "afw(...)king: Iets dat anders is dan normaal.", "Woord zonder haakjes": "afwijking"},
+            {"Categorie": "Categorie 1", "Woord met (ei) of (ij)": "and(ij)vie", "Korte zin voor 12-jarige": "and(...)vie: Een groene bladgroente die je kunt eten.", "Woord zonder haakjes": "andijvie"}
+        ];
+
+        let currentQuestion = 0;
+        let correctAnswers = 0;
+
+        function displayQuestion(index) {
+            if (index >= words.length) {
+                document.getElementById('question').innerHTML = "Alle vragen zijn behandeld!";
+                document.getElementById('choices').style.display = 'none'; 
+                document.getElementById('result').innerHTML = `Je hebt ${correctAnswers} van de ${words.length} vragen correct beantwoord.`;
+                return;
+            }
+
+            const word = words[index];
+            const sentence = word['Korte zin voor 12-jarige'];
+            const correctAnswer = word['Woord met (ei) of (ij)'].includes('ei') ? 'ei' : 'ij';
+
+            document.getElementById('question').innerHTML = sentence;
+            document.getElementById('result').innerHTML = '';
+            document.getElementById('ei').checked = false;
+            document.getElementById('ij').checked = false;
+
+            document.getElementById('submit').onclick = function() {
+                checkAnswer(correctAnswer, index);
+            };
+        }
+
+        function checkAnswer(correctAnswer, index) {
+            const userAnswer = document.querySelector('input[name="choice"]:checked').value;
+            const result = document.getElementById('result');
+
+            if (userAnswer === correctAnswer) {
+                result.innerHTML = "Correct: " + correctAnswer;
+                result.classList.remove('incorrect');
+                result.classList.add('correct');
+                correctAnswers++;
+            } else {
+                result.innerHTML = "Incorrect, het juiste antwoord is: " + correctAnswer;
+                result.classList.add('incorrect');
+                result.classList.remove('correct');
+            }
+
+            document.getElementById('next').style.display = 'inline';
+            document.getElementById('next').onclick = function() {
+                displayQuestion(index + 1);
+                document.getElementById('next').style.display = 'none';
+            };
+        }
+
+        window.onload = function() {
+            displayQuestion(0);
+            document.getElementById('next').style.display = 'none';
+        }
+    </script>
+</head>
+<body>
+    <h1>Woordspel "EI of IJ"</h1>
+    <h2>Kies de juiste spelling</h2>
+
+    <div id="question"></div>
+    <div id="choices">
+        <label><input type="radio" id="ei" name="choice" value="ei"> EI</label>
+        <label><input type="radio" id="ij" name="choice" value="ij"> IJ</label>
+        <button id="submit">Controleer</button>
+    </div>
+    <div id="result"></div>
+    <button id="next">Volgende vraag</button>
+    <button onclick="window.location.reload();">Opnieuw starten</button>
+
+</body>
+</html>
