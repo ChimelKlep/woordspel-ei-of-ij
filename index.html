@@ -25,7 +25,7 @@
 
         // Dit wordt uitgevoerd zodra de pagina is geladen
         window.onload = function() {
-            fetch('zinnen.json')  // Zorg ervoor dat het bestand op de juiste plek staat
+            fetch('https://chimelklep.github.io/woordspel-ei-of-ij/zinnen.json') // Zorg ervoor dat het bestand op de juiste plek staat
             .then(response => response.json())
             .then(data => {
                 words = data;  // Laad de JSON-data in de 'words'-variabele
