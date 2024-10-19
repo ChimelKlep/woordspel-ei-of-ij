@@ -4,7 +4,7 @@ let currentWordIndex = 0;
 let category = localStorage.getItem('selectedCategory');
 
 // Logging to check if the script is loaded correctly
-console.log('script.js is geladen');
+console.log('script.js is geladen op opdracht.html');
 
 // Fetch data from the JSON file
 fetch('structured_word_data.json')
