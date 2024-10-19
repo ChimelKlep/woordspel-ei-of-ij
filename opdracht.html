@@ -1,0 +1,31 @@
+
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Woordspel: EI of IJ - Opdracht</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Woordspel: EI of IJ</h1>
+        <div id="sentence">De zin verschijnt hier...</div>
+        <!-- Buttons to trigger makeChoice function -->
+        <button onclick="makeChoice('ei')">EI</button>
+        <button onclick="makeChoice('ij')">IJ</button>
+        <table id="resultTable">
+            <thead>
+                <tr>
+                    <th>Correct EI</th>
+                    <th>Correct IJ</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <button onclick="goBack()">Ga terug</button>
+    </div>
+    <!-- Ensure the correct script is loaded -->
+    <script src="script.js"></script>
+</body>
+</html>
