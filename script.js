@@ -37,41 +37,27 @@ function showNextWord() {
 }
 
 function makeChoice(choice) {
-    console.log('makeChoice is aangeroepen met keuze:', choice); // Log to check if function is called
+    console.log('makeChoice is aangeroepen met keuze:', choice);
 
     let correctWord = wordData['Correcte Spelling'][currentWordIndex].toLowerCase();
-    choice = choice.toLowerCase(); // Maak de keuze ook lowercase
+    choice = choice.toLowerCase();
 
-    // Haal de ontbrekende letters ("ei" of "ij") uit de zin om te controleren
-    let missingPartMatch = wordData['Zin'][currentWordIndex].match(/\.{3}(ei|ij)/);
-
-    if (missingPartMatch) {
-        let missingPart = missingPartMatch[1];
-        console.log(`Missing part: ${missingPart}`);  // Log het ontbrekende deel
-        console.log(`User choice: ${choice}`);  // Log de keuze van de gebruiker
-        
-        // Controleer of het ontbrekende deel in de zin overeenkomt met de keuze
-        let isCorrect = (choice === missingPart);
-        console.log(`Is correct: ${isCorrect}`);  // Log of de keuze correct was
-        
-        // Update de tabel met resultaten
-        addToTable(choice, wordData['Correcte Spelling'][currentWordIndex], isCorrect);
-
-        if (isCorrect) {
-            document.getElementById('sentence').innerHTML = "Correct!";
-        } else {
-            document.getElementById('sentence').innerHTML = `Incorrect, het juiste antwoord is: ${wordData['Correcte Spelling'][currentWordIndex]}`;
-        }
-
-        currentWordIndex++;
-        if (currentWordIndex < wordData.Zin.length) {
-            showNextWord();
-        } else {
-            document.getElementById('sentence').innerHTML = "Alle woorden zijn behandeld.";
-        }
+    // Haal de correcte spelling op en controleer of de keuze (ei/ij) daar voorkomt
+    if (correctWord.includes(choice)) {
+        // Als de keuze overeenkomt, is het correct
+        document.getElementById('sentence').innerHTML = "Correct!";
+        addToTable(choice, correctWord, true);
     } else {
-        console.error('Zin bevat geen ontbrekende "ei" of "ij".');
-        document.getElementById('sentence').innerHTML = "Fout in de zinstructuur.";
+        // Als de keuze niet overeenkomt, toon de correcte spelling
+        document.getElementById('sentence').innerHTML = `Incorrect, het juiste antwoord is: ${correctWord}`;
+        addToTable(choice, correctWord, false);
+    }
+
+    currentWordIndex++;
+    if (currentWordIndex < wordData.Zin.length) {
+        showNextWord();
+    } else {
+        document.getElementById('sentence').innerHTML = "Alle woorden zijn behandeld.";
     }
 }
 
