@@ -3,6 +3,9 @@ let wordData;
 let currentWordIndex = 0;
 let category = localStorage.getItem('selectedCategory');
 
+// Logging to check if the script is loaded correctly
+console.log('script.js is geladen');
+
 // Fetch data from the JSON file
 fetch('structured_word_data.json')
     .then(response => {
@@ -34,6 +37,8 @@ function showNextWord() {
 }
 
 function makeChoice(choice) {
+    console.log('makeChoice is aangeroepen met keuze:', choice); // Log to check if function is called
+
     let correctWord = wordData['Correcte Spelling'][currentWordIndex].toLowerCase();
     choice = choice.toLowerCase(); // Maak de keuze ook lowercase
 
