@@ -33,14 +33,27 @@ function showNextWord() {
 }
 
 function makeChoice(choice) {
-    let correctWord = wordData['Correcte Spelling'][currentWordIndex];
-    let option = correctWord.includes(choice === 'ei' ? 'ei' : 'ij');
+    let correctWord = wordData['Correcte Spelling'][currentWordIndex].toLowerCase();
+    choice = choice.toLowerCase(); // Maak de keuze ook lowercase
 
-    // Update the table with results
-    addToTable(choice, correctWord, option);
+    // Controleer of het correcte woord de gekozen spelling bevat (ei of ij)
+    let isCorrect = (choice === 'ei' && correctWord.includes('ei')) || (choice === 'ij' && correctWord.includes('ij'));
+
+    // Update de tabel met resultaten
+    addToTable(choice, correctWord, isCorrect);
+
+    if (isCorrect) {
+        document.getElementById('sentence').innerHTML = "Correct!";
+    } else {
+        document.getElementById('sentence').innerHTML = `Incorrect, het juiste antwoord is: ${wordData['Correcte Spelling'][currentWordIndex]}`;
+    }
 
     currentWordIndex++;
-    showNextWord();
+    if (currentWordIndex < wordData.Zin.length) {
+        showNextWord();
+    } else {
+        document.getElementById('sentence').innerHTML = "Alle woorden zijn behandeld.";
+    }
 }
 
 function addToTable(choice, word, isCorrect = true) {
