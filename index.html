@@ -23,17 +23,15 @@
 
         let words = [];
 
-        // Dit wordt uitgevoerd zodra de pagina is geladen
         window.onload = function() {
-            fetch('https://chimelklep.github.io/woordspel-ei-of-ij/zinnen.json') // Zorg ervoor dat het bestand op de juiste plek staat
+            fetch('zinnen.json')
             .then(response => response.json())
             .then(data => {
-                words = data;  // Laad de JSON-data in de 'words'-variabele
-                displayQuestion(0); // Start met de eerste vraag zodra de JSON is geladen
+                words = data;
+                displayQuestion(0);
             })
             .catch(error => console.error('Error loading JSON:', error));
 
-            // Je bestaande functies voor het weergeven van vragen
             function displayQuestion(index) {
                 if (index >= words.length) {
                     document.getElementById('question').innerHTML = "Alle vragen zijn behandeld!";
@@ -43,8 +41,8 @@
                 }
 
                 const word = words[index];
-                const sentence = word['Zin'];  // Gebruik het 'Zin'-veld uit de JSON
-                const correctAnswer = word['Correcte Spelling'];  // Correcte spelling
+                const sentence = word['Zin'];
+                const correctAnswer = word['Correcte Spelling'];
 
                 document.getElementById('question').innerHTML = sentence;
                 document.getElementById('result').innerHTML = '';
@@ -58,7 +56,7 @@
 
             function checkAnswer(correctAnswer, index) {
                 const userAnswerElement = document.querySelector('input[name="choice"]:checked');
-                if (userAnswerElement) {  // Check if there is a selection made
+                if (userAnswerElement) {
                     const userAnswer = userAnswerElement.value;
                     const result = document.getElementById('result');
 
