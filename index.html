@@ -3,100 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Woordspel "EI of IJ"</title>
-    <style>
-        /* Stijl hier */
-    </style>
-    <link rel="manifest" href="manifest.json">
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('service-worker.js')
-                .then(function(registration) {
-                    console.log('Service Worker geregistreerd:', registration);
-                })
-                .catch(function(error) {
-                    console.log('Service Worker registratie mislukt:', error);
-                });
-            });
-        }
-
-        let words = [];
-
-        window.onload = function() {
-            fetch('zinnen.json')
-            .then(response => response.json())
-            .then(data => {
-                words = data;
-                displayQuestion(0);
-            })
-            .catch(error => console.error('Error loading JSON:', error));
-
-            function displayQuestion(index) {
-                if (index >= words.length) {
-                    document.getElementById('question').innerHTML = "Alle vragen zijn behandeld!";
-                    document.getElementById('choices').style.display = 'none';
-                    document.getElementById('result').innerHTML = `Je hebt ${correctAnswers} van de ${words.length} vragen correct beantwoord.`;
-                    return;
-                }
-
-                const word = words[index];
-                const sentence = word['Zin'];
-                const correctAnswer = word['Correcte Spelling'];
-
-                document.getElementById('question').innerHTML = sentence;
-                document.getElementById('result').innerHTML = '';
-                document.getElementById('ei').checked = false;
-                document.getElementById('ij').checked = false;
-
-                document.getElementById('submit').onclick = function() {
-                    checkAnswer(correctAnswer, index);
-                };
-            }
-
-            function checkAnswer(correctAnswer, index) {
-                const userAnswerElement = document.querySelector('input[name="choice"]:checked');
-                if (userAnswerElement) {
-                    const userAnswer = userAnswerElement.value;
-                    const result = document.getElementById('result');
-
-                    if (userAnswer === correctAnswer) {
-                        result.innerHTML = "Correct: " + correctAnswer;
-                        result.classList.remove('incorrect');
-                        result.classList.add('correct');
-                    } else {
-                        result.innerHTML = "Incorrect, het juiste antwoord is: " + correctAnswer;
-                        result.classList.add('incorrect');
-                        result.classList.remove('correct');
-                    }
-
-                    document.getElementById('next').style.display = 'inline';
-                    document.getElementById('next').onclick = function() {
-                        displayQuestion(index + 1);
-                        document.getElementById('next').style.display = 'none';
-                    };
-                } else {
-                    const result = document.getElementById('result');
-                    result.innerHTML = "Selecteer een antwoord voordat je verder gaat.";
-                    result.classList.add('incorrect');
-                }
-            }
-        }
-    </script>
+    <title>Woordspel: EI of IJ</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Woordspel "EI of IJ"</h1>
-    <h2>Kies de juiste spelling</h2>
-
-    <div id="question"></div>
-    <div id="choices">
-        <label><input type="radio" id="ei" name="choice" value="ei"> EI</label>
-        <label><input type="radio" id="ij" name="choice" value="ij"> IJ</label>
-        <button id="submit">Controleer</button>
+    <div class="container">
+        <h1>Woordspel: EI of IJ</h1>
+        <p>Kies een categorie om te beginnen:</p>
+        <div class="categories">
+            <button onclick="startGame('Categorie 1')">Categorie 1</button>
+            <button onclick="startGame('Categorie 2')">Categorie 2</button>
+            <button onclick="startGame('Categorie 3')">Categorie 3</button>
+            <button onclick="startGame('Categorie 4')">Categorie 4</button>
+        </div>
     </div>
-    <div id="result"></div>
-    <button id="next">Volgende vraag</button>
-    <button onclick="window.location.reload();">Opnieuw starten</button>
 
+    <script>
+        function startGame(category) {
+            localStorage.setItem('selectedCategory', category);
+            window.location.href = 'opdracht.html';
+        }
+    </script>
 </body>
 </html>
