@@ -3,26 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Woordspel: EI of IJ</title>
+    <title>Woordspel: EI of IJ - Opdracht</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <h1>Woordspel: EI of IJ</h1>
-        <p>Kies een categorie om te beginnen:</p>
-        <div class="categories">
-            <button onclick="startGame('Categorie 1')">Categorie 1</button>
-            <button onclick="startGame('Categorie 2')">Categorie 2</button>
-            <button onclick="startGame('Categorie 3')">Categorie 3</button>
-            <button onclick="startGame('Categorie 4')">Categorie 4</button>
-        </div>
+        <div id="sentence">De zin verschijnt hier...</div>
+        <button onclick="makeChoice('ei')">EI</button>
+        <button onclick="makeChoice('ij')">IJ</button>
+        <table id="resultTable">
+            <thead>
+                <tr>
+                    <th>Correct EI</th>
+                    <th>Correct IJ</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <button onclick="goBack()">Ga terug</button>
     </div>
-
-    <script>
-        function startGame(category) {
-            localStorage.setItem('selectedCategory', category);
-            window.location.href = 'opdracht.html';
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>

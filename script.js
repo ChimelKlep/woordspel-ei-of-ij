@@ -4,15 +4,28 @@ let category = localStorage.getItem('selectedCategory');
 
 // Fetch data from the JSON file
 fetch('structured_word_data.json')
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
     .then(data => {
-        wordData = data[category];
-        showNextWord();
+        wordData = data.find(cat => cat.Categorie === category);
+        if (wordData) {
+            showNextWord();
+        } else {
+            document.getElementById('sentence').innerHTML = "Geen data voor de geselecteerde categorie.";
+        }
+    })
+    .catch(error => {
+        console.error('Error fetching the JSON:', error);
+        document.getElementById('sentence').innerHTML = "Fout bij het laden van data.";
     });
 
 function showNextWord() {
-    if (currentWordIndex < wordData.words.length) {
-        let sentence = wordData.sentences[currentWordIndex];
+    if (currentWordIndex < wordData.Zin.length) {
+        let sentence = wordData.Zin[currentWordIndex];
         document.getElementById('sentence').innerHTML = sentence;
     } else {
         document.getElementById('sentence').innerHTML = "Alle woorden zijn behandeld.";
@@ -20,15 +33,11 @@ function showNextWord() {
 }
 
 function makeChoice(choice) {
-    let correctWord = wordData.words[currentWordIndex];
-    let option = wordData.options[currentWordIndex];
+    let correctWord = wordData['Correcte Spelling'][currentWordIndex];
+    let option = correctWord.includes(choice === 'ei' ? 'ei' : 'ij');
 
-    // Check if the choice is correct
-    if ((choice === 'ei' && option.includes('(ei)')) || (choice === 'ij' && option.includes('(ij)'))) {
-        addToTable(choice, correctWord);
-    } else {
-        addToTable(choice, correctWord, false);
-    }
+    // Update the table with results
+    addToTable(choice, correctWord, option);
 
     currentWordIndex++;
     showNextWord();
