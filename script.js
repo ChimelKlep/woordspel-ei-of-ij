@@ -1,3 +1,4 @@
+
 let wordData;
 let currentWordIndex = 0;
 let category = localStorage.getItem('selectedCategory');
@@ -39,13 +40,11 @@ function makeChoice(choice) {
     // Controleer of het correcte woord het gekozen deel bevat (ei of ij)
     let isCorrect = false;
     
-    // Als het woord 'ei' bevat en de keuze 'ei' is, is het correct
-    if (correctWord.includes('ei') && choice === 'ei') {
+    // Gebruik regex om te zoeken naar de specifieke delen van het woord
+    if (/ei/.test(correctWord) && choice === 'ei') {
         isCorrect = true;
     }
-    
-    // Als het woord 'ij' bevat en de keuze 'ij' is, is het correct
-    if (correctWord.includes('ij') && choice === 'ij') {
+    if (/ij/.test(correctWord) && choice === 'ij') {
         isCorrect = true;
     }
 
